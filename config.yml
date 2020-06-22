@@ -1,0 +1,13 @@
+extensions:
+ notes:
+   searchDirs:
+     - ~/Downloads
+   destinationDirs:
+     - ~/notes
+   createSubDirs: false
+ docx:
+   searchDirs:
+     - ~/Downloads
+   destinationDirs:
+     - ~/notes
+   createSubDirs: false
