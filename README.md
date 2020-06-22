@@ -2,9 +2,11 @@
 Automated tasks
 
 Repository contains scripts which automating repeatable tasks.
-For example:
 
-	- organizing files by they extensions
+1. Script to organize files
+
+	- Move files from one place to multiple defined (in configuration) places.
+    - Files will be detected immediately when will appear in file system
 
 ## Requirements
 

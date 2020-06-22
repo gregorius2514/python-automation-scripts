@@ -1,0 +1,11 @@
+dirs:
+  photos:
+    inputDirs:
+      - ~/Downloads
+    outputDirs:
+      - ~/Downloads/photos
+    extensions:
+      - png
+      - jpg
+      - jpeg
+    createSubDirsWithDate: true
