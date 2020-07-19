@@ -1,0 +1,5 @@
+logger:
+  logFilePath: /tmp/logfile.log
+  appendDateToLogFile: false
+finder:
+  rootFilePath: /home/grzesiek/Downloads
