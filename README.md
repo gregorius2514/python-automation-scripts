@@ -7,6 +7,12 @@ Repository contains scripts which automating repeatable tasks.
 
 	- Move files from one place to multiple defined (in configuration) places.
     - Files will be detected immediately when will appear in file system
+    
+2. Script to find duplicated files
+
+    - checking files:
+      * content
+      * filename
 
 ## Requirements
 
