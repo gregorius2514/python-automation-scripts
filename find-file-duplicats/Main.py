@@ -1,5 +1,6 @@
 import os
 import ConfigLoader
+import hashlib
 
 class Logger():
     def __init__(self):
@@ -9,22 +10,32 @@ class Logger():
 
 class DuplicatsFinder():
     def __init__(self, rootDirPath):
-        self.rootDirPath = "/home/grzesiek/Documents"
+        self.rootDirPath = "/tmp"
 
     def find(self):
-        filePaths = {}
+        duplicatedFilePaths = {}
         for root, _, files in os.walk(self.rootDirPath):
             for filename in files:
-                if filename in filePaths:
-                    foundSimilarFilePaths = filePaths[filename]
-                    foundSimilarFilePaths.append("{}/{}".format(root,filename))
+                fileHash = self.hashFile(filename)
+                if fileHash in duplicatedFilePaths:
+                    foundSimilarDuplicatedFilePaths = duplicatedFilePaths[fileHash]
+                    foundSimilarDuplicatedFilePaths.append("{}/{}".format(root,filename))
                 else:
-                    filePaths[filename] = ["{}/{}".format(root, filename)]
+                    duplicatedFilePaths[fileHash] = ["{}/{}".format(root, filename)]
 
-        for file in filePaths.values():
+        for file in duplicatedFilePaths.values():
             if (len(file) > 1):
-                print(filePaths)
+                print(duplicatedFilePaths)
 
+    def hashFile(self, filepath):
+        READ_FILE_CHUNK = 2048
+        fileHash = hashlib.sha3_256()
+
+        with open(filepath,"rb") as file:
+            for fileBytes in iter(lambda: file.read(READ_FILE_CHUNK), b""):
+                fileHash.update(fileBytes)
+
+        return fileHash.hexdigest()
 
 if __name__ == "__main__":
     configLoader = ConfigLoader()
