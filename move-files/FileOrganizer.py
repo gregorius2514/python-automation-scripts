@@ -1,33 +1,26 @@
-import sys, os, time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-from shutil import copyfile
+from pathlib import Path
+
+OUTPUT_PATH = "/tmp/output"
+outputPath = Path(OUTPUT_PATH)
 
 class FilesChanges(FileSystemEventHandler):
-    def on_modified(self, event):
+
+    def on_created(self, event):
         p = event.src_path
-
-        if os.path.isfile(p):
-            absPath = os.path.abspath(p)
-            fileName = os.path.basename(p)
-            extension = os.path.splitext(fileName)[1].replace('.', '')
-            destinationPath = '/tmp/{}'.format(extension)
-
-            if not os.path.exists(destinationPath):
-                os.mkdir(destinationPath)
-
-            copyfile(absPath, '/tmp/{}/{}'.format(extension,fileName))
+        print("create: {}".format(p))
+        path = Path(p)
+        if path.is_file():
+            extension = path.suffix
+            if extension != '':
+                dir = outputPath.joinpath(extension.replace('.',''))
+                dir.mkdir()
+                path.rename(dir.joinpath(path.name))
 
 if __name__ == "__main__":
     observer = Observer()
-    observer.schedule(FilesChanges(), ".", recursive=True)
+    observer.schedule(FilesChanges(), "/tmp/test", recursive=True)
 
     observer.start()
-
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-
     observer.join()
